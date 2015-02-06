@@ -1,0 +1,44 @@
+package com.argeath.offersSearch;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
+/**
+ *
+ * @author amino_000
+ */
+public class DB {
+    public HikariDataSource ds;
+    public HikariConfig config;
+    
+    String driver = "com.mysql.jdbc.Driver";
+    
+    String db = "databaseName";
+    String url = "jdbc:mysql://example.com/" + db + "?rewriteBatchedStatements=true";
+    String username = "username";
+    String password = "password";
+    
+    private static DB instance = null;
+    
+    public static DB getInstance() {
+        if(instance == null) {
+            instance = new DB();
+        }
+        return instance;
+    }
+    
+    DB() {
+        ds = new HikariDataSource();
+        ds.setMaximumPoolSize(100);
+        ds.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+        ds.addDataSourceProperty("url", url);
+        ds.addDataSourceProperty("user", username);
+        ds.addDataSourceProperty("password", password);
+        ds.addDataSourceProperty("cachePrepStmts", true);
+        ds.addDataSourceProperty("prepStmtCacheSize", 250);
+        ds.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+        ds.addDataSourceProperty("useServerPrepStmts", true);
+        //ds.addDataSourceProperty("rewriteBatchedStatements", true);
+    }
+    
+}
